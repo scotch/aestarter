@@ -1,0 +1,29 @@
+{% if userprofiles.__len__ %}
+  <h3>Connect additional provider account to view the information that AEAuth collects.</h3>
+
+  <div class="tabbable tabs-left">
+    <ul class="nav nav-tabs tabs">
+      {% if userprofiles %}
+        {% for p in userprofiles %}
+          <li class="{% if loop.first %}active{% endif %}"><a data-toggle="tab" href="#{{ p.key.id().replace(':', '').replace('.', '').replace('#', '').replace('@', '') }}">{{ p.key.id() }}</a></li>
+        {% endfor %}
+      {% endif %}
+    </ul>
+
+    <div class="tab-content">
+      {% if userprofiles %}
+        {% for p in userprofiles %}
+          <div class="tab-pane{% if loop.first %} active{% endif %}" id="{{ p.key.id().replace(':', '').replace('.', '').replace('#', '').replace('@', '') }}">
+            <pre class="prettyprint">
+              {{ p.to_dict()|do_pprint() }}
+            </pre>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+{% else %}
+  <div class="alert alert info">
+    No data yet. Try connecting an account
+  </div>
+{% endif %}

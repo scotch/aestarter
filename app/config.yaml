@@ -1,0 +1,140 @@
+
+## NOTE: aecore uses the datastore for Config settings.
+# This file is simply a way of setting those default values.
+
+## How does it work?
+# aecore stores the config settings for the various apps in NDB expando models.
+# When an application is accessed for the first time aecore copies the config
+# values to a datastore entity with the key set to the name of the module.
+# For example the config settings for aecore can be found in the datastore
+# admin under the Config entity group with the key aecore.
+
+## Isn't this inefficient?
+# On the initial load the config setting are saved to an in-proses cache,
+# memcache, and to the datastore. Subsequent Config settings requests will be
+# fulfilled in the same order. Therefore, the application will rarely needs to
+# query the datastore for a value, and most often the settings will be found in
+# the in-process cache or memcache, making lookups fast and cheap.
+
+## Benefits
+# The benefit of this approach is flexibility. You no longer need to worry
+# about setting development and production keys. You can set your development
+# keys here, and change the values in the datastore in production.
+# This strategy also supports Multi-tenant apps by allowing the use of
+# namespaceing, Which is not possible with a standard config file.
+
+application:
+  # title is used in various templates. Include emails.
+  title: AEStarter
+  # default_from_email specifies the email to use for password resets
+  default_from_email: hello@example.com
+  # description is used in various templates.
+  descrition: Application Description.
+  # google_analytics_code is placed into the base template.
+  google_analytics_code: UA-28149225-1
+  # domain is used inn google analytics code
+  domain: example.com
+  # author is used in the the html head tag author
+  author: Example, Inc.
+
+# installed_apps lists the AE apps that are installed. This list is used for
+# importing config.yaml files.
+installed_apps:
+  - aeaccount
+  - aeauth
+  - aecore
+  - aerest
+
+aecore:
+  # secret_key is used in session security.
+  secret_key: CHANGE_TO_A_SECRET_KEY
+  # user_model specifies the path to the User model. If you are subclassing
+  # the User model change this value to the location of your model.
+  user_model: aecore.models.User
+  # cookie_key specifies the key to be used for the cookie.
+  # Generally there is little reason to change this.
+  cookie_key: _aecore
+  # cookie_max_age specifies the time in seconds until the cookie expires.
+  # If left blank the cookie will expire when the browser is closed.
+  cookie_max_age: 2592000 # 30 days
+  # cookie_path specifies the path the cookie will be used on. Generally you
+  # will want to leave this as /
+  cookie_path: /
+  # cookie_domain specifies the domain the cookie will be used on. If left
+  # blank the browser will default to the current domain.
+  cookie_domain:
+  # cookie_secure should be set to true when cookie communication is limited
+  # to encrypted transmission
+  cookie_secure: false
+  # cookie_httponly should be set to true when only using http. A true will
+  # prevent access from javascript and other non-http methods.
+  cookie_httponly: false
+
+aeauth:
+  # base_url specifies the root path for the EAAuth. Only change this value
+  # if you are using /auth for some other purpose.
+  base_url: /auth
+  # login_url specifies the path to the login form. This value is used when
+  # redirecting a user after an authentication error or when a users is
+  # required to access a resource.
+  login_url: /auth/login
+  # logout_url specifies the path to the logout a user. The Handler for the
+  # is path simple deletes the users cookie, it does not log the user out of
+  # third-party authentication providers.
+  logout_url: /auth/logout
+  # success_url specifies the path the user will be redirected to upon
+  # successful authentication. In addition to using this setting, you may
+  # optionally provide a path when directing to the strategy. For example:
+  # <a href="/auth/google?next=/account">Login Google then to Account</a>
+  # will direct the user to Google for authentication, on the user's return
+  # they will be directed to /account
+  success_url: /
+  # user_profile_model specifies the path to the UserProfile model.
+  # If you are subclassing the UserProfile model change this value to the
+  # location of your model.
+  user_profile_model: aeauth.strategies.UserProfile
+  # providers list the providers that you will allow for authentication.
+  # The key should be the providers name as will appear in the form. The value
+  # is the url that will log in the user.
+  providers:
+    google: /auth/google
+    facebook: /auth/facebook
+    twitter: /auth/twitter
+    yahoo: /auth/appengine_openid?provider=yahoo.com
+    linkedin: /auth/linkedin
+    aol: /auth/appengine_openid?provider=aol.com
+    myopenid: /auth/appengine_openid?provider=myopenid.com
+    myspace: /auth/appengine_openid?provider=myspace.com
+    github: /auth/github
+
+
+aeauth.strategies.facebook:
+  client_id: 343417275669983
+  client_secret: fec59504f33b238a5d7b5f3b35bd958a
+  scope: email
+
+aeauth.strategies.github:
+  client_id: dbac99a147b10e6bc813
+  client_secret: 5f6e11429eeef14d0fe79721ee53459963e306f5
+
+aeauth.strategies.google:
+  client_id: 673072897993.apps.googleusercontent.com
+  client_secret: 4bNhP7gETK0DLOvIhC0rO39b
+  api_key: None
+  scope: 'https://www.googleapis.com/auth/userinfo.email
+          https://www.googleapis.com/auth/userinfo.profile
+          https://www.googleapis.com/auth/plus.me'
+
+aeauth.strategies.linkedin:
+  client_id: jfsgpazuxzb2
+  client_secret: LxGBTeCpQlb4Ad2R
+
+aeauth.strategies.password:
+  required: email
+  uid: email
+
+aeauth.strategies.twitter:
+  client_id: l8nfb1saEW4mlTOARqunKg
+  client_secret: LCQweRuuGndhtNWihnwiDxs9npkNRII8GAgpGkYFi5c
+
+

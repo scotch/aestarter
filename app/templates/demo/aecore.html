@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}
+  AECore
+{% endblock %}
+
+{% block head %}
+  <link href="/static/google-code-prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="/static/google-code-prettify/prettify.js"></script>
+{% endblock %}
+
+{% block content %}
+  <section>
+    <header>
+      <h1>
+        <a href="http://github.com/scotch/aecore">AECore</a>
+        <small>Adds Sessions, Users, UserProfiles and Datastore Config</small>
+      </h1>
+    </header>
+  </section>
+
+  <section class="tabbable">
+    <h5>The following demonstrate the data stored by AECore for you (data is visialble to you only).</h5>
+
+    <hr />
+    <ul class="nav nav-tabs tabs">
+      <li class="active"><a href="#session" data-toggle="tab">Session</a></li>
+      <li><a href="#user" data-toggle="tab">User</a></li>
+      <li><a href="#userprofile" data-toggle="tab">UserProfile</a></li>
+      <li><a href="#config" data-toggle="tab">Config</a></li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="session">
+        <section>
+          <header>
+            <h3>
+              <small>[Description]</small>
+            </h3>
+          </header>
+
+          {% if session %}
+            <pre class="prettyprint">
+              {{ session.to_dict()|do_pprint() }}
+            </pre>
+          {% else %}
+            <div class="alert alert info">
+              No data yet. Try connecting an account
+            </div>
+          {% endif %}
+        </section>
+      </div>
+
+      <div class="tab-pane" id="user">
+        <section>
+          <header>
+            <h3>
+              <small>[Description]</small>
+            </h3>
+          </header>
+
+          {% if user %}
+            <pre class="prettyprint">
+              {{ user.to_dict()|do_pprint() }}
+            </pre>
+          {% else %}
+            <div class="alert alert info">
+              No data yet. Try connecting an account
+            </div>
+          {% endif %}
+        </section>
+      </div>
+
+      <div class="tab-pane" id="userprofile">
+        <section>
+          <header>
+            <h2>
+              <small>[Description]</small>
+            </h2>
+          </header>
+
+          {% include "demo/partials/userprofile_details.html" %}
+        </section>
+      </div>
+
+      <div class="tab-pane" id="config">
+        <section>
+          <header>
+            <h2>
+              <small>[Description]</small>
+            </h2>
+          </header>
+
+          {% if config.__len__ %}
+            <div class="tabbable tabs-left">
+              <ul class="nav nav-tabs tabs">
+                {% for c in configs %}
+                  {# html element ids can not contain '.' #}
+                  <li class="{% if loop.first %}active{% endif %}"><a data-toggle="tab" href="#{{ c.key.id().replace('.', '') }}">{{ c.key.id() }}</a></li>
+                {% endfor %}
+              </ul>
+
+              <div class="tab-content">
+                {% for c in configs %}
+                  {# html element ids can not contain '.' #}
+                  <div class="tab-pane{% if loop.first %} active{% endif %}" id="{{ c.key.id().replace('.', '') }}">
+                    <pre class="prettyprint">
+                      {{ c.to_dict()|do_pprint() }}
+                    </pre>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          {% else %}
+            <div class="alert alert info">
+              No data yet.
+            </div>
+          {% endif %}
+        </section>
+      </div>
+    </div>
+  </section>
+  <script>
+    require(["lib/bootstrap-tab"], function(tab) {
+      window.prettyPrint && prettyPrint();
+    });
+  </script>
+{% endblock %}

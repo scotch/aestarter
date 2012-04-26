@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Welcome to Engine Starter
+{% endblock %}
+
+{% block content %}
+  <section class="tabbable">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="/projects" data-toggle="tab">projects</a></li>
+        <li><a href="/people" data-toggle="tab">people</a></li>
+        <li><a href="/resources data-toggle="tab">resources</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="auth">
+          <section>
+            <header>
+              <h2><a href="http://github.com/scotch/aeauth">aeauth</a></h2>
+              <h4>Adds Multi-Provider Authentication</h4>
+              <h3>Demo</h3>
+              {% include "auth/login_form.html" %}
+            </header>
+          </section>
+        </div>
+
+        <div class="tab-pane" id="account">
+          <header>
+            <h3><a href="http://github.com/scotch/aeaccount">aeaccount</a></h3>
+            <h4>Adds User Account Management</h4>
+          </header>
+          <ul>
+            <li><a href="/auth/account/">/auth/account/</a></li>
+            <li><a href="/auth/account/recovery">/auth/account/recovery</a></li>
+          </ul>
+        </div>
+
+        <div class="tab-pane" id="core">
+          <header>
+            <h3><a href="http://github.com/scotch/aecore">aecore</a></h3>
+            <h4>Adds Sessions, Users and a Datastore Config</h4>
+          </header>
+        </div>
+      </div>
+  </section>
+  <section>
+    <header>
+      <h2>Includes</h2>
+    </header>
+    <p><strong>Engine Starter</strong> is bundle with the following apps:</p>
+    <dl>
+      <dt><h3><a href="http://github.com/scotch/aecore">aecore</a></h3></dt>
+      <dd>Adds Sessions, Users and a Datastore Config</dd>
+      <dt><h3><a href="http://github.com/scotch/aeauth">aeauth</a></h3></dt>
+      <dd>Adds Multi-Provider Authentication</dd>
+      <dt><h3><a href="http://github.com/scotch/aeaccount">aeaccount</a></h3></dt>
+      <dd>Adds User Account Management</dd>
+    </dl>
+  </section>
+
+  <script>
+    $(function () {
+      window.prettyPrint && prettyPrint();
+      $('.tabs a:first').tab('show')
+      $('.pills a:first').tab('show')
+    })
+  </script>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}
+  AEAuth
+{% endblock %}
+
+{% block head %}
+  <link href="/static/google-code-prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="/static/google-code-prettify/prettify.js"></script>
+{% endblock %}
+
+{% block content %}
+  <section>
+    <header>
+      <h1>
+        <a href="http://github.com/scotch/aeauth">AEAuth</a>
+        <small>Adds Multi-Provider Authentication</small>
+      </h1>
+    </header>
+    <div class="row">
+      <div class="span9">
+        <h3 | Demo>
+          {% include "auth/login_form.html" %}
+        </h3>
+      </div>
+      <div class="span3">
+        <h3>Info</h3>
+        <dl>
+          <dt>Repository</dt>
+          <dd><a href="http://github.com/scotch/aeauth">github.com/scotch/aeauth</a></dd>
+        </dl>
+        <dl>
+          <dt>Urls</dt>
+          <dd><a href="/auth/login">/auth/login</a></dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+  <section>
+    <hr />
+    <h2>
+      UserProfile
+      <small>Entity</small>
+    </h2>
+    <hr />
+    {% include "demo/partials/userprofile_details.html" %}
+  </section>
+
+
+  <script>
+    require(["lib/bootstrap-tab"], function(tab) {
+      window.prettyPrint && prettyPrint();
+    });
+  </script>
+{% endblock %}
